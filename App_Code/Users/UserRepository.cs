@@ -53,7 +53,7 @@ namespace MP2_IT114L.App_Code.Users
             }
         }
 
-        public bool CheckUser(string email, string password, string type)
+        public bool CheckUser(string email, string password)
         {
             
             bool userExists = false;
@@ -62,11 +62,12 @@ namespace MP2_IT114L.App_Code.Users
             {
                 connection.Open();
                 command.CommandText =
-                    "SELECT COUNT(*) FROM Account WHERE Email = @Email AND Password = @Password AND Type = @Type";
+                    "SELECT COUNT(*) FROM Account WHERE Email = @Email AND Password = @Password";
+                    //"SELECT COUNT(*) FROM Account WHERE Email = @Email AND Password = @Password AND Type = @Type";
 
                 command.Parameters.AddWithValue("@Email", email);
                 command.Parameters.AddWithValue("@Password", password);
-                command.Parameters.AddWithValue("@Type", type);
+                //command.Parameters.AddWithValue("@Type", type);
 
                 int count = (int)command.ExecuteScalar();
                 if (count > 0)
@@ -75,6 +76,25 @@ namespace MP2_IT114L.App_Code.Users
                 }
             }
             return userExists;
+        }
+
+        public string CheckUserType(string email, string password)
+        {
+            string UserType;
+            using (var connection = new SqlConnection(connectionString))
+            using (var command = connection.CreateCommand())
+            {
+                connection.Open();
+                command.CommandText =
+                    "SELECT Type FROM Account WHERE Email = @Email AND Password = @Password";
+
+                command.Parameters.AddWithValue("@Email", email);
+                command.Parameters.AddWithValue("@Password", password);
+
+                object result = command.ExecuteScalar();
+                UserType = result.ToString();
+            }
+            return UserType;
         }
 
         public bool CheckExistingUser(string email)

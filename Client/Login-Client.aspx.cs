@@ -14,19 +14,31 @@ namespace MP2_IT114L
         {
             string email = TB_email.Text;
             string password = TB_password.Text;
-            string type = "Customer";
+            string type;
 
             UserRepository userRepository = new UserRepository();
 
-            if (userRepository.CheckUser(email, password, type))
+            if (userRepository.CheckUser(email, password))
             {
-                if (userRepository.CheckUser(email, password, "Admin"))
+                type = userRepository.CheckUserType(email, password);
+                Session["LoggedInUserEmail"] = email;
+                Session["UserType"] = type;
+                if (type == "Admin")
                 {
-                    Response.Write("Invalid email or password.");
+                    Response.Redirect("~/Admin/Dashboard.aspx");
                 }
                 else
                 {
                     Response.Redirect("Index.aspx");
+                    Response.Redirect("~/Index.aspx");
+                    Session["UserType"] = type;
+                    Response.Redirect("~/Index.aspx");
+                    Session["UserType"] = type;
+                    Response.Redirect("~/Index.aspx");
+                    Session["UserType"] = type;
+                    Response.Redirect("~/Index.aspx");
+                    Session["UserType"] = type;
+                    Response.Redirect("~/Index.aspx");
                 }
             }
             else

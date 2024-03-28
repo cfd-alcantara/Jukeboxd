@@ -18,9 +18,9 @@ namespace MP2_IT114L
 
             UserRepository userRepository = new UserRepository();
 
-            if (userRepository.CheckUser(email, password, type))
+            if (userRepository.CheckUser(email, password))
             {
-                if (userRepository.CheckUser(email, password, "Customer"))
+                if (userRepository.CheckUser(email, password))
                 {
                     Response.Write("Invalid email or password.");
                 }
